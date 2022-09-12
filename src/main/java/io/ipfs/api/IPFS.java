@@ -23,6 +23,7 @@ public class IPFS {
     private static final int DEFAULT_READ_TIMEOUT_MILLIS = 60_000;
 
     public final String host;
+    public final String authToken;
     public final int port;
     public final String protocol;
     private final String version;
@@ -50,7 +51,8 @@ public class IPFS {
         this(host, port, "/api/v0/", false);
     }
 
-    public IPFS(String multiaddr) {
+    public IPFS(String multiaddr, String authToken) {
+        this.authToken = authToken;
         this(new MultiAddress(multiaddr));
     }
 
@@ -110,6 +112,7 @@ public class IPFS {
 
     public List<MerkleNode> add(List<NamedStreamable> files, boolean wrap, boolean hashOnly) throws IOException {
         Multipart m = new Multipart(protocol + "://" + host + ":" + port + version + "add?stream-channels=true&w="+wrap + "&n="+hashOnly, "UTF-8");
+        m.addHeaderField("Authorization", authToken);
         for (NamedStreamable file: files) {
             if (file.isDirectory()) {
                 m.addSubtree(Paths.get(""), file);
