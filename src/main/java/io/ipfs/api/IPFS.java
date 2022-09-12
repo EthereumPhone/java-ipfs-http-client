@@ -698,11 +698,14 @@ public class IPFS {
 
     private byte[] retrieve(String path) throws IOException {
         URL target = new URL(protocol, host, port, version + path);
+        
         return IPFS.get(target, connectTimeoutMillis, readTimeoutMillis);
     }
 
     private static byte[] get(URL target, int connectTimeoutMillis, int readTimeoutMillis) throws IOException {
         HttpURLConnection conn = configureConnection(target, "POST", connectTimeoutMillis, readTimeoutMillis);
+        // EthOS
+        conn.setRequestProperty("Authorization", "Basic MkVQTm5KNjV1akJibGlNMkxpQjloa2ZEdmsxOmM1NTI3MjZhNWNhNDBjY2UyMTgzMTMxNmE5NDYwMTg5");
         conn.setDoOutput(true);
         /* See IPFS commit for why this is a POST and not a GET https://github.com/ipfs/go-ipfs/pull/7097
            This commit upgrades go-ipfs-cmds and configures the commands HTTP API Handler
