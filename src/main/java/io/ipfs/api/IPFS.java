@@ -52,8 +52,8 @@ public class IPFS {
     }
 
     public IPFS(String multiaddr, String authToken) {
-        this.authToken = authToken;
         this(new MultiAddress(multiaddr));
+        this.authToken = authToken;
     }
 
     public IPFS(MultiAddress addr) {
