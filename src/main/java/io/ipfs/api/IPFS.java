@@ -23,7 +23,7 @@ public class IPFS {
     private static final int DEFAULT_READ_TIMEOUT_MILLIS = 60_000;
 
     public final String host;
-    public final String authToken;
+    public String authToken = "";
     public final int port;
     public final String protocol;
     private final String version;
@@ -47,13 +47,16 @@ public class IPFS {
     public final Name name = new Name();
     public final Pubsub pubsub = new Pubsub();
 
+    public void setAuthToken(String authToken) {
+        this.authToken = authToken;
+    }
+
     public IPFS(String host, int port) {
         this(host, port, "/api/v0/", false);
     }
 
-    public IPFS(String multiaddr, String authToken) {
+    public IPFS(String multiaddr) {
         this(new MultiAddress(multiaddr));
-        this.authToken = authToken;
     }
 
     public IPFS(MultiAddress addr) {
